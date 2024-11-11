@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * A simple unit test for the 'org.example.greeting' plugin.
  */
-class CodegenJooqPluginTest {
+class CodegenGradlePluginTest {
 
    @TempDir
    File testProjectDir;
@@ -31,7 +31,7 @@ class CodegenJooqPluginTest {
         buildFile = new File(testProjectDir, "build.gradle");
         var build = """
                 plugins {
-                    id 'org.moonlit.jooq'
+                    id 'io.github.alexritian.codegenGradlePlugin'
                     id 'java'
                 }
                 

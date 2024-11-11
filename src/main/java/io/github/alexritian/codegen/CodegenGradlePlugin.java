@@ -18,7 +18,7 @@ import static nu.studer.gradle.jooq.util.Strings.capitalize;
 /**
  * @author Too_young
  */
-public class CodegenJooqPlugin implements Plugin<Project> {
+public class CodegenGradlePlugin implements Plugin<Project> {
     public void apply(Project project) {
 
         // apply Java base plugin, making it possible to also use the jOOQ plugin for Android builds
