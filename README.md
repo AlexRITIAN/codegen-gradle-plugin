@@ -1,10 +1,10 @@
 # codegen-gradle-plugin
 
-从 [gradle-jooq-plugin](https://github.com/etiennestuder/gradle-jooq-plugin)修改而来，用于生成代码。添加默认的配置，简化使用。使用 `flyway` 和 `testcontainer` 来实现通过本地数据库来生成代码。
+Derived from [gradle-jooq-plugin](https://github.com/etiennestuder/gradle-jooq-plugin), this plugin is designed for code generation with additional default configurations for ease of use. It utilizes `flyway` and `testcontainer` to generate code from a local database.
 
-# 使用方法
+# Usage
 
-## 引入插件
+## Applying the Plugin
 
 ```kotlin
 plugins {
@@ -12,7 +12,7 @@ plugins {
 }
 ```
 
-## 配置插件
+## Configuring the Plugin
 
 ```kotlin
 jooq {
@@ -32,17 +32,18 @@ jooq {
     }
 }
 ```
+
 > [!NOTE]
->  沿用了 [gradle-jooq-plugin](https://github.com/etiennestuder/gradle-jooq-plugin) 的扩展名字。同样支持多个配置。
+> The extension name follows [gradle-jooq-plugin](https://github.com/etiennestuder/gradle-jooq-plugin) conventions. Multiple configurations are supported as well.
 
-### `database` 
+### `database`
 
-默认会使用 `testcontainer` 来启动一个数据库. 如果要使用其他数据库，可以通过加入 `url`, `driver`, `user` 和 `password` 来配置。
+By default, `testcontainer` will start a database instance. To use a different database, you can specify the `url`, `driver`, `user`, and `password` parameters.
 
-### `forcedTypes` 
+### `forcedTypes`
 
-可以配置一些强制转换的类型
-`timestampToInstant` 会将数据库中的下列类型转换为 `java.time.Instant` 类型。
+You can configure some forced type conversions.
+The `timestampToInstant` function converts the following database types to `java.time.Instant`:
 
 - `timestamp`
 - `timestamp without time zone`
@@ -50,7 +51,8 @@ jooq {
 - `timestamptz`
 
 > [!NOTE]
-> 目前只有 `timestampToInstant` 一个方法，后续会补充其他类型转换方法
-### 其他配置
+> Currently, only the `timestampToInstant` method is available, but additional type conversion methods will be added in the future.
 
-对 [gradle-jooq-plugin](https://github.com/etiennestuder/gradle-jooq-plugin) 进行一些默认配置。
+### Other Configurations
+
+Some default configurations are provided based on [gradle-jooq-plugin](https://github.com/etiennestuder/gradle-jooq-plugin).
