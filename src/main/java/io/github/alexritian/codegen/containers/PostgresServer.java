@@ -13,7 +13,7 @@ public abstract class PostgresServer implements BuildService<BuildServiceParamet
     private final PostgreSQLContainer<?> container;
 
     public PostgresServer() {
-        container = new PostgreSQLContainer<>("postgres");
+        container = new PostgreSQLContainer<>("postgres:latest");
         container.start();
     }
 

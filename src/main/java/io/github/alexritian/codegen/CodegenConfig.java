@@ -119,6 +119,34 @@ public class CodegenConfig extends JooqConfig {
         public String getExcludes() {
             return excludes;
         }
+
+        public void setDriver(String driver) {
+            this.driver = driver;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public void setSchema(String schema) {
+            this.schema = schema;
+        }
+
+        public void setIncludes(String includes) {
+            this.includes = includes;
+        }
+
+        public void setExcludes(String excludes) {
+            this.excludes = excludes;
+        }
     }
 
     public static class Output {
@@ -131,6 +159,14 @@ public class CodegenConfig extends JooqConfig {
 
         public String getDirectory() {
             return directory;
+        }
+
+        public void setPackageName(String packageName) {
+            this.packageName = packageName;
+        }
+
+        public void setDirectory(String directory) {
+            this.directory = directory;
         }
     }
 

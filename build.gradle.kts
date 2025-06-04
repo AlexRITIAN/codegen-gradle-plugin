@@ -1,13 +1,12 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     signing
     alias(libs.plugins.plugin.publish)
-    alias(libs.plugins.publish)
+//    alias(libs.plugins.publish)
+    id("maven-publish")
 }
 
 group = "io.github.alexritian"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2"
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -33,7 +32,7 @@ gradlePlugin {
     vcsUrl = "https://github.com/AlexRITIAN/codegen-gradle-plugin.git"
     // Define the plugin
     val codegenGradlePlugin by plugins.creating {
-        id = "io.github.alexritian.codegenGradlePlugin"
+        id = "io.github.alexritian.codegen-gradle-plugin"
         implementationClass = "io.github.alexritian.codegen.CodegenGradlePlugin"
         displayName = "Codegen JOOQ Gradle Plugin"
         description = "A custom Gradle plugin that extends gradle-jooq-plugin with default configurations."
@@ -55,16 +54,6 @@ sourceSets {
 
 publishing {
     repositories {
-        maven {
-            name = "githubPackages"
-            url = uri("https://maven.pkg.github.com/AlexRITIAN/codegen-gradle-plugin")
-            credentials(PasswordCredentials::class)
-        }
-    }
-    publications {
-        register<MavenPublication>("gpr") {
-            from(components["java"])
-        }
+        mavenLocal()
     }
 }
-
