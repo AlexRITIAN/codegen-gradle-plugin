@@ -1,17 +1,17 @@
+import org.gradle.internal.impldep.junit.runner.Version.id
+
 plugins {
-    signing
     alias(libs.plugins.plugin.publish)
-//    alias(libs.plugins.publish)
     id("maven-publish")
 }
 
 group = "io.github.alexritian"
-version = "0.0.2"
+version = "0.0.4"
 
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
-    maven { url = uri("https://plugins.gradle.org/m2/") } // Gradle Plugin Portal
+    gradlePluginPortal()
 }
 
 dependencies {
@@ -49,11 +49,5 @@ sourceSets {
         java {
             setSrcDirs(listOf("src/test/java"))
         }
-    }
-}
-
-publishing {
-    repositories {
-        mavenLocal()
     }
 }
