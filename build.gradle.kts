@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.alexritian"
-version = "0.0.4"
+version = "0.0.7"
 
 repositories {
     // Use Maven Central for resolving dependencies.

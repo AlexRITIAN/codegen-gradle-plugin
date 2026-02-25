@@ -64,7 +64,9 @@ public class CodegenConfig extends JooqConfig {
                                 .withImmutablePojos(false)
                                 .withFluentSetters(true)
                                 .withSpringAnnotations(true)
-                                .withPojos(true))
+                                .withPojos(true)
+                                .withDaos(true)
+                                .withFluentSetters(true))
                         .withDatabase(configuration.getGenerator().getDatabase()
                                 .withInputSchema(database.getSchema())
                                 .withIncludes(database.getIncludes())
@@ -171,8 +173,8 @@ public class CodegenConfig extends JooqConfig {
     }
 
    public static class ForcedTypeContainer {
-        private final static String TIMESTAMP_INSTANT_CONVERTER = "io.github.alexritian.codegen.converter.TimestampInstantConverter";
-        private final static String TIMESTAMP_TYPE = "(?i)TIMESTAMP(_WITH(_TIME)?_ZONE|_TZ|TZ)?(\\(.*\\))?";
+        private final static String TIMESTAMPTZ_INSTANT_CONVERTER = "io.github.alexritian.codegen.converter.OffsetDateTimeInstantConverter";
+        private final static String TIMESTAMP_TYPE = "(?i)TIMESTAMP(_WITH(_TIME)?_ZONE|_TZ|TZ)(\\(\\d+\\))?";
         private final NamedDomainObjectContainer<ForcedType> forcedTypes;
 
         public ForcedTypeContainer(Project project) {
@@ -183,9 +185,9 @@ public class CodegenConfig extends JooqConfig {
             return this.forcedTypes;
         }
 
-        public void timestampToInstant() {
+        public void timestamptzToInstant() {
             var forcedType = new ForcedType();
-            forcedType.setConverter(TIMESTAMP_INSTANT_CONVERTER);
+            forcedType.setConverter(TIMESTAMPTZ_INSTANT_CONVERTER);
             forcedType.setIncludeExpression(".*\\.*");
             forcedType.setUserType(Instant.class.getName());
             forcedType.setIncludeTypes(TIMESTAMP_TYPE);
