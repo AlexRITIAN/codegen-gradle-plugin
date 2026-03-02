@@ -80,8 +80,8 @@ public class CodegenGradlePlugin implements Plugin<Project> {
         jooqGeneratorRuntime.setDescription("The classpath used to invoke the jOOQ code generator. Add your JDBC driver, generator extensions, and additional dependencies here.");
         project.getDependencies().addProvider(jooqGeneratorRuntime.getName(),
                 jooqExtension.getEdition().map(e -> e.getGroupId() + ":jooq-codegen").flatMap(ga -> jooqExtension.getVersion().map(v -> ga + ":" + v)));
-        project.getDependencies().add(jooqGeneratorRuntime.getName(), "io.github.alexritian:codegen-gradle-plugin-runtime:1.0.1");
-        project.getDependencies().add("implementation", "io.github.alexritian:codegen-gradle-plugin-runtime:1.0.1");
+        project.getDependencies().add(jooqGeneratorRuntime.getName(), "io.github.alexritian:codegen-gradle-plugin-runtime:1.0.4");
+        project.getDependencies().add("implementation", "io.github.alexritian:codegen-gradle-plugin-runtime:1.0.4");
         return jooqGeneratorRuntime;
     }
 

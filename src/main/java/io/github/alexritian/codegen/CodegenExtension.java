@@ -13,7 +13,7 @@ import javax.inject.Inject;
  */
 public class CodegenExtension {
 
-    private static final String DEFAULT_VERSION = "3.19.23";
+    private static final String DEFAULT_VERSION = "3.19.29";
     private static final JooqEdition DEFAULT_EDITION = JooqEdition.OSS;
 
     private final Property<Boolean> useContainer;
