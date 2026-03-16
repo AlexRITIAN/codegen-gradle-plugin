@@ -70,7 +70,8 @@ public class CodegenConfig extends JooqConfig {
                         .withDatabase(configuration.getGenerator().getDatabase()
                                 .withInputSchema(database.getSchema())
                                 .withIncludes(database.getIncludes())
-                                .withExcludes(database.getExcludes())));
+                                .withExcludes(database.getExcludes())
+                                .withRecordVersionFields(database.getRecordVersionFields())));
     }
 
     public void output(Action<? super Output> action) {
@@ -93,6 +94,7 @@ public class CodegenConfig extends JooqConfig {
         private String schema;
         private String includes;
         private String excludes;
+        private String recordVersionFields;
 
         public String getDriver() {
             return driver;
@@ -122,6 +124,8 @@ public class CodegenConfig extends JooqConfig {
             return excludes;
         }
 
+        public String getRecordVersionFields() { return recordVersionFields; }
+
         public void setDriver(String driver) {
             this.driver = driver;
         }
@@ -149,6 +153,8 @@ public class CodegenConfig extends JooqConfig {
         public void setExcludes(String excludes) {
             this.excludes = excludes;
         }
+
+        public void setRecordVersionFields(String recordVersionFields) { this.recordVersionFields = recordVersionFields; }
     }
 
     public static class Output {
@@ -174,7 +180,12 @@ public class CodegenConfig extends JooqConfig {
 
    public static class ForcedTypeContainer {
         private final static String TIMESTAMPTZ_INSTANT_CONVERTER = "io.github.alexritian.codegen.converter.OffsetDateTimeInstantConverter";
+        private final static String JSONB_MAP_CONVERTER = "io.github.alexritian.codegen.converter.JsonbToMapConverter";
+        private final static String JSONB_OBJECT_CONVERTER = "io.github.alexritian.codegen.converter.JsonbToObject";
+
         private final static String TIMESTAMP_TYPE = "(?i)TIMESTAMP(_WITH(_TIME)?_ZONE|_TZ|TZ)(\\(\\d+\\))?";
+        private final static String VARCHAR_TYPE = "(?i)(varchar|character varying)(\\(\\d+\\))?";
+        private final static String JSONB_TYPE = "(?i)(jsonb)";
         private final NamedDomainObjectContainer<ForcedType> forcedTypes;
 
         public ForcedTypeContainer(Project project) {
@@ -185,12 +196,51 @@ public class CodegenConfig extends JooqConfig {
             return this.forcedTypes;
         }
 
+        public void enumByName(String enumType, String includeExpr) {
+            if (enumType == null || enumType.isBlank() ||  includeExpr == null || includeExpr.isBlank()) {
+                throw new IllegalArgumentException("enumType or includeExpr must not be null or blank");
+            }
+            var forcedType = new ForcedType();
+            forcedType.setEnumConverter(true);
+            forcedType.setIncludeExpression(includeExpr);
+            forcedType.setUserType(enumType);
+            forcedType.setIncludeTypes(VARCHAR_TYPE);
+            generateName(forcedType);
+            forcedTypes.add(forcedType);
+        }
+
         public void timestamptzToInstant() {
             var forcedType = new ForcedType();
             forcedType.setConverter(TIMESTAMPTZ_INSTANT_CONVERTER);
-            forcedType.setIncludeExpression(".*\\.*");
+            forcedType.setIncludeExpression(".*");
             forcedType.setUserType(Instant.class.getName());
             forcedType.setIncludeTypes(TIMESTAMP_TYPE);
+            generateName(forcedType);
+            forcedTypes.add(forcedType);
+        }
+
+        public void jsonbToMap(String includeExpr) {
+            if (includeExpr == null || includeExpr.isBlank()) {
+                throw new IllegalArgumentException("enumType or includeExpr must not be null or blank");
+            }
+            var forcedType = new ForcedType();
+            forcedType.setConverter(JSONB_MAP_CONVERTER);
+            forcedType.setIncludeExpression(includeExpr);
+            forcedType.setUserType("java.util.Map<java.lang.String, java.lang.String>");
+            forcedType.setIncludeTypes(JSONB_TYPE);
+            generateName(forcedType);
+            forcedTypes.add(forcedType);
+        }
+
+        public void jsonbToObject(String includeExpr) {
+            if (includeExpr == null || includeExpr.isBlank()) {
+                throw new IllegalArgumentException("enumType or includeExpr must not be null or blank");
+            }
+            var forcedType = new ForcedType();
+            forcedType.setConverter(JSONB_OBJECT_CONVERTER);
+            forcedType.setIncludeExpression(includeExpr);
+            forcedType.setUserType("java.lang.Object");
+            forcedType.setIncludeTypes(JSONB_TYPE);
             generateName(forcedType);
             forcedTypes.add(forcedType);
         }
